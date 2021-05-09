@@ -11,13 +11,13 @@ Pkg.add(PackageSpec(;name="SeqUMAP",url="https://github.com/alecpnkw/SeqUMAP.git
 
 ### Usage
 
-Kmer embed and project sequences using
+Embed and project sequences using
 
 ```
 proj = project_sequences(seqs, ndim; k = 2, lookup_dic = NT_DICT)
 ```
 
-where `seqs` is an array of strings. For ease of use, the following lookup dictionaries are provided: 
+where `seqs` is an array of strings, `ndim` is the number of projected dimensions and `k` is the kmer size. By default, seuqences are embedded by counting all unique kmers and the distance between seuqences is estimated using corrected kmer distance, provided as the `CorrectedKmer(k,N)` metric. The following lookup dictionaries are included for sequence encoding:
 
 ```
 AA_DICT = Dict(

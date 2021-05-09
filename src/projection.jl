@@ -3,15 +3,15 @@
 
 struct CorrectedKmer <: Metric 
     k::Int
-    N::Int
 end 
 
-correctedkmer(a::AbstractArray, b::AbstractArray, k::Int, N::Int) = CorrectedKmer(k, N)(a, b)
-correctedkmer(a::Number, b::Number, k::Int, N::Int) = CorrectedKmer(k, N)(a, b)
+correctedkmer(a::AbstractArray, b::AbstractArray, k::Int) = CorrectedKmer(k)(a, b)
+correctedkmer(a::Number, b::Number, k::Int) = CorrectedKmer(k)(a, b)
 
 function evaluate(dist::CorrectedKmer,a,b)
     D = sqeuclidean(a,b)
-    dist.N*log(1 -  minimum([D / (dist.N * 2),1])) / - dist.k
+    #dist.N*log(1 -  minimum([D / (dist.N * 2),1])) / - dist.k
+    D / dist.k * (sum(a) + sum(b))
 end
 
 @eval @inline (dist::CorrectedKmer)(a::AbstractArray, b::AbstractArray) = evaluate(dist, a, b)
@@ -27,6 +27,6 @@ function project_sequences(seqs::Array{String,1}, ndim::Int;
     N = length(vecs[1])
     X = hcat(vecs...);
     X = convert(Array{Float64,2}, X)
-    proj = umap(X, ndim; n_neighbors = n_neighbors, min_dist = min_dist, metric = CorrectedKmer(k,N))
+    proj = umap(X, ndim; n_neighbors = n_neighbors, min_dist = min_dist, metric = CorrectedKmer(k))
     return proj
 end

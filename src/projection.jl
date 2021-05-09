@@ -11,7 +11,7 @@ correctedkmer(a::Number, b::Number, k::Int) = CorrectedKmer(k)(a, b)
 function evaluate(dist::CorrectedKmer,a,b)
     D = sqeuclidean(a,b)
     #dist.N*log(1 -  minimum([D / (dist.N * 2),1])) / - dist.k
-    D / dist.k * (sum(a) + sum(b))
+    D / (dist.k * (sum(a) + sum(b)))
 end
 
 @eval @inline (dist::CorrectedKmer)(a::AbstractArray, b::AbstractArray) = evaluate(dist, a, b)

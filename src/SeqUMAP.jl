@@ -1,6 +1,7 @@
 module SeqUMAP
 
-using UMAP
+using Distances
+import UMAP: umap
 
 include("encoding.jl")
 include("embedding.jl")
@@ -21,6 +22,7 @@ get_kmer_index,
 kmer_embed,
 
 #projection.jl...
+CorrectedKmer,
 project_sequences
 
 end

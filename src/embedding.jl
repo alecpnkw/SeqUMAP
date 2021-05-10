@@ -5,7 +5,7 @@ end
 
 #weights vector length is the number of unique kmers
 #each kmer is counted once, contributes to one pos
-function kmer_contribute_identity!(kmer_counts::Array{UInt64,1}, kmer::Vector{Int}, n_chars::Int)
+function kmer_count!(kmer_counts::Array{UInt64,1}, kmer::Vector{Int}, n_chars::Int)
     kmer_counts[get_kmer_index(kmer,n_chars)] += unsigned(1)
 end
 

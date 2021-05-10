@@ -17,12 +17,12 @@ string2encoding,
 
 #embedding.jl...
 collect_kmers,
-kmer_contribute_identity!,
+kmer_count!,
 get_kmer_index,
 kmer_embed,
 
 #projection.jl...
 CorrectedKmer,
-project_sequences
+sequmap
 
 end

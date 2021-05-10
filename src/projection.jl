@@ -8,6 +8,7 @@ end
 correctedkmer(a::AbstractArray, b::AbstractArray, k::Int) = CorrectedKmer(k)(a, b)
 correctedkmer(a::Number, b::Number, k::Int) = CorrectedKmer(k)(a, b)
 
+#looking back at RAD paper not sure about this... check!
 function evaluate(dist::CorrectedKmer,a,b)
     D = sqeuclidean(a,b)
     #dist.N*log(1 -  minimum([D / (dist.N * 2),1])) / - dist.k
@@ -17,7 +18,7 @@ end
 @eval @inline (dist::CorrectedKmer)(a::AbstractArray, b::AbstractArray) = evaluate(dist, a, b)
 @eval @inline (dist::CorrectedKmer)(a::Number, b::Number) = evaluate(dist, a, b)
 
-function project_sequences(seqs::Array{String,1}, ndim::Int;
+function sequmap(seqs::Array{String,1}, ndim::Int;
     k = 2,
     lookup_dic = AA_DICT,
     n_neighbors = 30, 

@@ -1,6 +1,6 @@
-#break into kmers for strings
-function collect_kmers(seq::String, k::Int, lookup_dic::Dict{Char,Int})
-    return [[lookup_dic[c] for c in seq[1+i:k+i]] for i in 0:length(seq)-k]
+#break into kmers for integers
+function collect_kmers(seq::Array{Int,1}, k::Int) #lookup_dic not used.
+    return [seq[1+i:k+i] for i in 0:length(seq)-k]
 end
 
 #weights vector length is the number of unique kmers
@@ -20,16 +20,19 @@ function get_kmer_index(kmer::Vector{Int}, n_chars::Int)
 end 
 
 #with a `kmer_contribution()` function... 
-function kmer_embed(seq, k::Int, kmer_contribution::Function; lookup_dic = AA_DICT)
+function kmer_embed(seq, k::Int, kmer_contribution::Function; lookup_dic = AA_DICT, missing_chars = Set{Char}())
     n = length(union(values(lookup_dic)))
     kmer_counts = zeros(UInt64, n^k) 
     
     #break into kmers
-    kmers = collect_kmers(seq, k, lookup_dic)
+    seqvec, missing_chars = string2encoding(seq, lookup_dic; missing_chars = missing_chars)
+    kmers = collect_kmers(seqvec, k)
 
     #store kmer count in array
     for kmer in kmers
-        kmer_contribution(kmer_counts, kmer, n)
+        if !(0 in kmer)
+            kmer_contribution(kmer_counts, kmer, n)
+        end
     end
-    return kmer_counts
+    return kmer_counts, missing_chars
 end

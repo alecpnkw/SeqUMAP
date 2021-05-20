@@ -1,6 +1,7 @@
 module SeqUMAP
 
 using Distances
+import MultivariateStats: fit, PCA, transform
 import UMAP: umap
 
 include("encoding.jl")

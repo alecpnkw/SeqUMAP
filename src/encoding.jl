@@ -45,7 +45,15 @@ function resolve_seq(s)
 end
 
 #encode string
-function string2encoding(seq::String, lookup_dic::Dict{Char,Int})
-    return [lookup_dic[c] for c in seq]
+function string2encoding(seq::String, lookup_dic::Dict{Char,Int}; missing_chars = Set{Char}())
+    vec = Int64[]
+    for c in seq
+        if !haskey(lookup_dic, c)
+            push!(missing_chars, c)
+            push!(vec, 0)
+        else
+            push!(vec, lookup_dic[c])
+        end
+    end
+    return vec, missing_chars
 end
-
